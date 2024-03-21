@@ -36,9 +36,13 @@ if __name__ == "__main__":
 
     print(type(resultado))
 
-    
-    for elemento in resultado:
-        login = elemento["login"]
-        with open(f"{login}.json", "w") as file:
-            file.write(json.dumps(elemento, indent=2))
+    with open(f"usuarios.txt", "a") as file:
+        for i,  elemento in enumerate(resultado):
+            login = elemento["login"]
+            file.write(json.dumps(login))
+            if i < len(resultado):
+                file.write(", ")
+            else:
+                file.write(".")
+
 
