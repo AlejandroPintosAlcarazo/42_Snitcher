@@ -24,24 +24,27 @@ def generate_token():
 if __name__ == "__main__":
 
     token = generate_token()
+    data = []
+    i = 0
 
-    response = requests.get("https://api.intra.42.fr/v2/users", headers={
-        "Authorization": f"Bearer {token}"
-    })
-
-    if response.status_code != 200:
-        print(response.text)
-        exit(1)
-
-    resultado = response.json()
-
-    print(type(resultado))
+    while True:
+        response = requests.get("https://api.intra.42.fr/v2/users", params={"page": i}, headers={
+            "Authorization": f"Bearer {token}"
+        })
+        if response.status_code != 200:
+            print(response.text)
+            exit(1)
+        resultado = response.json()
+        if not resultado:
+            break
+        data.append(resultado)
+        i += 1
 
     with open(f"usuarios.txt", "a") as file:
-        for i,  elemento in enumerate(resultado):
+        for j,  elemento in enumerate(data):
             login = elemento["login"]
             file.write(json.dumps(login))
-            if i < len(resultado):
+            if j < len(resultado):
                 file.write(", ")
             else:
                 file.write(".")
