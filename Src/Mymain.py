@@ -10,11 +10,12 @@ def generate_token():
     url = "https://api.intra.42.fr/oauth/token"
     body = {
         "grant_type": "client_credentials",
-        "client_id": os.getenv("CLIENT_ID"),
-        "client_secret": os.getenv("CLIENT_SECRET")
+        "client_id": os.getenv("TEMP_CLIENT_ID"),
+        "client_secret": os.getenv("TEMP_CLIENT_SECRET")
     }
 
     response = requests.post(url, json=body)
+    print(response)
     token = response.json()["access_token"]
 
     return token
@@ -45,6 +46,6 @@ if __name__ == "__main__":
             else:
                 file.write(".")
 
-    for keys in os.environ:
-        if key.startwith("TEMP_"):
+    for key in os.environ:
+        if key.startswith("TEMP_"):
             del os.environ[key]
