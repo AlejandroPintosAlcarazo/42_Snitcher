@@ -45,4 +45,6 @@ if __name__ == "__main__":
             else:
                 file.write(".")
 
-
+    for keys in os.environ:
+        if key.startwith("TEMP_"):
+            del os.environ[key]
